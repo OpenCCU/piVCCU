@@ -297,7 +297,14 @@ static int hb_rf_eth_try_connect(char endpointIdentifier)
           break;
         }
       }
+      else if (len < 0 && len != -EAGAIN && len != -EPROTO)
+      {
+        /* nothing listens there (ICMP refused): waiting out the window only spins */
+        break;
+      }
     }
+
+    kfree(recv_buffer);
 
     if (err)
     {
@@ -944,5 +951,5 @@ module_exit(hb_rf_eth_exit);
 
 MODULE_AUTHOR("Alexander Reinert <alex@areinert.de>");
 MODULE_DESCRIPTION("HB-RF-ETH raw uart driver");
-MODULE_VERSION("1.27");
+MODULE_VERSION("1.28");
 MODULE_LICENSE("GPL");
