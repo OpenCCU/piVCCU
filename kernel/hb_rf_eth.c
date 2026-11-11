@@ -875,7 +875,7 @@ static int __init hb_rf_eth_init(void)
   raw_uart = generic_raw_uart_probe(dev, &hb_rf_eth, NULL);
   if (IS_ERR(raw_uart))
   {
-    err = PTR_ERR(dev);
+    err = PTR_ERR(raw_uart);
     goto failed_raw_uart_probe;
   }
 
